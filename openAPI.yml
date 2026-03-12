@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: Policy Management API
+  description: REST API for managing insurance policies
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /api/v1/policies:
+    post:
+      summary: Create a new policy
+      description: Creates a new insurance policy for a customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              customerName: Suresh
+              policyType: Health
+              policyAmount: 500000
+      responses:
+        "200":
+          description: Policy created successfully
+          content:
+            application/json:
+              example:
+                policyId: "12345"
+                customerName: "Suresh"
+                status: "ACTIVE"
+
+    get:
+      summary: Get all policies
+      description: Returns all policies in the system
+      responses:
+        "200":
+          description: List of policies returned
+
+  /api/v1/policies/{id}:
+    get:
+      summary: Get policy by ID
+      description: Fetch policy details using policyId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Policy details returned
+
+    delete:
+      summary: Delete policy
+      description: Deletes a policy using policyId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Policy deleted
+
+  /api/v1/policies/{id}/status:
+    put:
+      summary: Update policy status
+      description: Updates the policy status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            example:
+              status: INACTIVE
+      responses:
+        "200":
+          description: Status updated
